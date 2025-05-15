@@ -8,6 +8,11 @@
 * Capacitor 5
 * TypeScript, HTML5, SCSS
 
+  
+## Demonstração
+
+   ![Demo do Admin](src/assets/demo/admin.gif)
+
 ## Instalação e Configuração
 
 1. **Clone o repositório**
@@ -56,10 +61,6 @@
   * Campos: título e mensagem.
 * Envio via `POST ${environment.apiUrl}/notifications`.
 * Feedback de sucesso/erro.
-
-## Demonstração em GIF
-
-   ![Demo do Admin](src/assets/demo/admin.gif)
 
 ## Setup do Capacitor
 
