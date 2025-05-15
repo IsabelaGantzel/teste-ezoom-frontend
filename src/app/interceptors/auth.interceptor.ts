@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
-import { Storage } from '@ionic/storage-angular';
-import { from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { HttpInterceptor, HttpRequest, HttpHandler,HttpEvent} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private storage: Storage) {}
+  constructor(private auth: AuthService) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-    return from(this.storage.create()).pipe(
-      switchMap(() => from(this.storage.get('jwt'))),
-      switchMap(token => {
-        let authReq = req;
-        if (token) {
-          authReq = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = this.auth.getToken();
+    if (token) {
+      req = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
         }
-        return next.handle(authReq);
-      })
-    );
+      });
+    }
+    return next.handle(req);
   }
 }

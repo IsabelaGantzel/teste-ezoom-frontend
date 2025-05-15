@@ -29,11 +29,6 @@ export class AdminNotificationsPage {
 
   async init() {
     await this.storage.create();
-    const role = await this.storage.get('role');
-    if (role !== 'admin') {
-      await this.router.navigateByUrl('/notifications');
-      return;
-    }
     this.currentUserId = await this.storage.get('userId');
   }
 
@@ -47,5 +42,9 @@ export class AdminNotificationsPage {
       this.title = '';
       this.message = '';
     });
+  }
+
+  goBack() {
+    this.router.navigate(['/notifications']);
   }
 }

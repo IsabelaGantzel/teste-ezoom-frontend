@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   email = '';
   password = '';
   isLoading = false;
@@ -23,6 +23,13 @@ export class LoginPage {
     private storage: Storage,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    const token = this.auth.getToken();
+    if (token) {
+      this.router.navigate(['/notifications']);
+    }
+  }
 
   async login() {
     this.isLoading = true;
@@ -40,5 +47,12 @@ export class LoginPage {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  onSubmit() {
+    this.auth.login({ email: this.email, password: this.password }).subscribe({
+      next: () => this.router.navigate(['/notifications']),
+      error: () => {/* tratamento de erro */}
+    });
   }
 }

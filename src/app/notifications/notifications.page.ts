@@ -3,6 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { NotificationService, Notification } from 'src/app/services/notification.service';
 import { Storage } from '@ionic/storage-angular';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   standalone: true,
@@ -14,15 +16,22 @@ import { Storage } from '@ionic/storage-angular';
 export class NotificationsPage implements OnInit {
   notifications: Notification[] = [];
   userId!: number;
+  isAdmin = false;
 
   constructor(
     private notifService: NotificationService,
-    private storage: Storage
+    private authService: AuthService,
+    private storage: Storage,
+    private router: Router
   ) {}
 
   async ngOnInit() {
     await this.storage.create();
     this.userId = await this.storage.get('userId');
+
+    const role = await this.storage.get('role');
+    this.isAdmin = role === 'admin';
+
     this.loadNotifications();
   }
 
@@ -47,5 +56,14 @@ export class NotificationsPage implements OnInit {
       this.notifService.markAsRead(n.id)
         .subscribe(() => n.is_read = true);
     }
+  }
+
+  goToCreateNotification() {
+    this.router.navigate(['/admin-notifications']);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
