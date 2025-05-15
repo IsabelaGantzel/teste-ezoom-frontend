@@ -1,1 +1,13 @@
-.read { opacity: 0.6; text-decoration: line-through; }
+ion-item.read ion-label h2,
+ion-item.read ion-label p,
+ion-item.read ion-label small {
+  text-decoration: none !important;
+}
+
+ion-item:not(.read) ion-label {
+  color: #3171e0;
+  h2 {
+    color: #3171e0;
+    font-weight: 600;
+  }
+}

@@ -27,14 +27,25 @@ export class NotificationsPage implements OnInit {
   }
 
   loadNotifications() {
-    this.notifService.listNotifications(this.userId).subscribe(res => {
-      this.notifications = res.data;
-    });
+    this.notifService.listNotifications(this.userId)
+      .subscribe(res => {
+        this.notifications = res.data.map(n => ({
+          ...n,
+          is_read: Number((n as any).is_read) === 1
+        }));
+      });
   }
 
-  markRead(n: Notification) {
-    this.notifService.markAsRead(n.id).subscribe(() => {
-      n.is_read = true;
-    });
+  markRead(n: Notification, event: MouseEvent) {
+    event.stopPropagation();
+    this.notifService.markAsRead(n.id)
+      .subscribe(() => n.is_read = true);
+  }
+
+  onNotificationClick(n: Notification) {
+    if (!n.is_read) {
+      this.notifService.markAsRead(n.id)
+        .subscribe(() => n.is_read = true);
+    }
   }
 }

@@ -6,13 +6,18 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let n of notifications" [class.read]="n.is_read">
-      <ion-label>
+    <ion-item *ngFor="let n of notifications" [ngClass]="{ read: n.is_read, unread: !n.is_read }">
+      <ion-label (click)="onNotificationClick(n)">
         <h2>{{ n.title }}</h2>
         <p>{{ n.message }}</p>
         <small>{{ n.created_at | date:'dd/MM/yyyy HH:mm' }}</small>
       </ion-label>
-      <ion-button fill="clear" slot="end" *ngIf="!n.is_read" (click)="markRead(n)">
+
+      <ion-button 
+        *ngIf="!n.is_read" 
+        fill="solid" 
+        slot="end" 
+        (click)="markRead(n, $event)">
         Marcar como lida
       </ion-button>
     </ion-item>
