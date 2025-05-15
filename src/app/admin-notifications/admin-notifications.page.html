@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Enviar Notificação</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">ID do Usuário</ion-label>
+    <ion-input type="number" [(ngModel)]="targetUserId" placeholder="Informe o ID"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Título</ion-label>
+    <ion-input [(ngModel)]="title"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Mensagem</ion-label>
+    <ion-textarea [(ngModel)]="message"></ion-textarea>
+  </ion-item>
+  <ion-button expand="full" (click)="send()">Enviar</ion-button>
+</ion-content>

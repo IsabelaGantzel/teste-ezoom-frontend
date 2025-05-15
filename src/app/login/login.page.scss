@@ -1,0 +1,8 @@
+ion-item.read {
+  opacity: 0.6;
+}
+ion-item.read ion-label h2,
+ion-item.read ion-label p {
+  text-decoration: none;
+  color: var(--ion-color-medium);
+}
