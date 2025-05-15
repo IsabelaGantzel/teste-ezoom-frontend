@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class AdminNotificationsPage {
   currentUserId!: number;
-  targetUserId!: number;
+  targetUserId: number | null = null;
   title = '';
   message = '';
 
@@ -39,10 +39,11 @@ export class AdminNotificationsPage {
 
   send() {
     this.notifService.sendNotification({
-      user_id: this.targetUserId,
+      user_id: this.targetUserId!,
       title: this.title,
       message: this.message
     }).subscribe(() => {
+      this.targetUserId = null,
       this.title = '';
       this.message = '';
     });
